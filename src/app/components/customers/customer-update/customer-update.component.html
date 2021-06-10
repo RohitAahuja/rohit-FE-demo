@@ -1,0 +1,158 @@
+<ng-container *isLoading="loading">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3><i class="fa fa-user" width="40" height="40"></i> <span class="mx-3">{{customerId ? 'Update' : 'Add'}}
+                    Customer</span></h3>
+            <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="name">Name</label>
+                    <div class="row col-9">
+                        <input type="text" formControlName="name" class="form-control form-control-sm"
+                            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+
+                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                            <div *ngIf="f.name.errors.required">Name is required</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="gender" class="col-3">Gender</label>
+                    <div class="col-9">
+                        <label class="form-check-label col-3" for="gender">
+                            <input type="radio" formControlName="gender" class="form-check-input" id="gender"
+                                name="gender" value="Male" [checked]="f.gender.value === 'Male'">Male
+                        </label>
+                        <label class="form-check-label col-3" for="gender">
+                            <input type="radio" formControlName="gender" class="form-check-input" id="gender"
+                                name="gender" value="Female" [checked]="f.gender.value === 'Female'">Female
+                        </label>
+                    </div>
+                    <div class="form-check-inline mx-4">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="email">Email</label>
+                    <div class="row col-9">
+                        <input type="text" name="email" formControlName="email" class="form-control form-control-sm"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="address">Address</label>
+                    <div class="row col-9">
+                        <textarea col="5" row="5" name="address" formControlName="address"
+                            class="form-control form-control-sm"
+                            [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
+                        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                            <div *ngIf="f.address.errors.required">Address is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="city">City</label>
+                    <div class="row col-9">
+                        <input type="text" name="city" formControlName="city" class="form-control form-control-sm"
+                            [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+                        <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                            <div *ngIf="f.city.errors.required">City is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="state">State</label>
+                    <div class="row col-9">
+                        <select formControlName="state" class="form-control form-control-sm" id="state" name="stateList"
+                            [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Ahemdabad">Ahemdabad</option>
+                            <option value="MP">MP</option>
+                        </select>
+                        <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                            <div *ngIf="f.state.errors.required">State is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="country">Country</label>
+                    <div class="row col-9">
+                        <select formControlName="country" class="form-control form-control-sm" id="state"
+                            name="stateList" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+                            <option value="India">India</option>
+                            <option value="US">US</option>
+                            <option value="Germany">Germany</option>
+                            <option value="UK">UK</option>
+                            <option value="Canada">Canada</option>
+                        </select>
+                        <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                            <div *ngIf="f.country.errors.required">Country is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="form-check-label col-3" for="photo">Photo</label>
+                    <!-- <input type="password" formControlName="photo" class="col-9 form-control form-control-sm"
+                    [ngClass]="{ 'is-invalid': submitted && f.photo.errors }"
+                    /> -->
+                    <div class="row col-9">
+                        <input id="fileUploader" type="file" class="form-control-file" name="file"
+                            [ngClass]="{ 'is-invalid': submitted && f.photo.errors }" (change)="onFileChange($event)">
+                        <!-- <input id="urlUploader" type="text" formControlName="photo" class="form-control form-control-sm"
+                        [ngClass]="{ 'is-invalid': submitted && f.photo.errors }" (blur)="onImageUrlUpload($event)" /> -->
+                        <div *ngIf="submitted && f.photo.errors" class="invalid-feedback">
+                            <div *ngIf="f.photo.errors.required">Photo is required</div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <div class="form-group row">
+                <div class="col-3"></div>
+                <div class="row col-9">or</div>
+            </div> -->
+                <!-- <div class="form-group row">
+                <div class="col-3"></div>
+                <div class="row col-9">
+                    <input id="fileUploader" type="file" formControlName="photo" class="form-control-file" name="file"
+                        [ngClass]="{ 'is-invalid': submitted && f.photo.errors }" (change)="onFileChange($event)">
+                    <div *ngIf="(urlUploaderError || fileUploaderError)" class="invalid-feedback d-block">
+                        <div>Either upload the image or provide the url!!!</div>
+                    </div>
+                </div>
+            </div> -->
+                <div class="form-group row">
+                    <label for="hobbies" class="col-3">Hobbies</label>
+                    <div class="row col-9">
+                        <label class="form-check-label col-3" for="cricket">
+                            <input type="checkbox" class="form-check-input" id="cricket" name="hobbies" value="cricket"
+                                [checked]="f.hobbies.value.includes('cricket')"
+                                (click)="updateHobbies('cricket')">Cricket
+                        </label>
+                        <label class="form-check-label col-3" for="badminton">
+                            <input type="checkbox" class="form-check-input" id="badminton" name="hobbies"
+                                value="badminton" [checked]="f.hobbies.value.includes('badminton')"
+                                (click)="updateHobbies('badminton')">Badminton
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button [disabled]="loading" class="btn btn-primary">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Register
+                    </button>
+                    <a routerLink="/customers" class="btn btn-link">Cancel</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div class="m-5">
+                <img class="m-2 border border-primary"
+                    [src]="file || ('assets/' + (f.gender.value === 'Male' ? 'male' : 'female') + '.png')" alt=""
+                    height="400px" width="420px">
+            </div>
+        </div>
+    </div>
+</ng-container>

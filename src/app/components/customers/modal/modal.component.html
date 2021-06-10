@@ -1,0 +1,16 @@
+<div class="modal" [ngClass]="{'hidden': hidden, 'show': !hidden}" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{modalConfig.header}}</h4>
+                <button type="button" class="close" data-dismiss="modal" (click)="close()">&times;</button>
+            </div>
+            <div class="modal-body">
+                {{modalConfig.body}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

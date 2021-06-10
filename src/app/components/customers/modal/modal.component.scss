@@ -1,0 +1,19 @@
+.modal {
+  display: block;
+  position: fixed;
+}
+.hidden {
+  transform: scale(0);
+  opacity: 0;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+.show {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1);
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}

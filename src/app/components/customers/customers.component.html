@@ -1,0 +1,106 @@
+<ng-container *isLoading="loading">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <h3><i class="fa fa-user" width="40" height="40"></i> <span class="mx-3">Customers</span> </h3>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <button class="btn btn-primary float-right" routerLink="/customers/add"><span class="fa fa-plus"></span>
+                New Customer </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav navbar-nav">
+                <li class="toolbar-item" [ngClass]="{'text-primary': view === 'list'}"><span
+                        class="fa fa-align-justify"></span><a class="mx-3" (click)="view = 'list'">List View</a></li>
+                <li class="toolbar-item" [ngClass]="{'text-primary': view === 'card'}"><span
+                        class="fa fa-th-large"></span><a class="mx-3" (click)="view = 'card'">Card View</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row my-5" *ngIf="res && res.customers && res.customers.length; else noDataAvailable;">
+        <div class="col-12">
+
+           
+
+
+
+
+            <table class="table table-dark table-hover" *ngIf="view === 'list'">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name <a><i class="fa fa-fw fa-sort"
+                                    [ngClass]="{'fa-sort-asc': direction === 'asc', 'fa-sort-desc': direction === 'desc'}"
+                                    (click)="toggleSortDirection(direction)"></i></a></th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let customer of res.customers">
+                        <td><img [src]="customer.photo || ('assets/' + (customer.gender === 'Male' ? 'male' : 'female') + '.png')"
+                                height="50" width="50"></td>
+                        <td>{{customer.name}}</td>
+                        <td>{{customer.email}}</td>
+                        <td>{{customer.address + (customer.city && (', ' + customer.city)) + (customer.state && (', ' +
+                            customer.state)) + (customer.country && (', ' + customer.country))}}</td>
+                        <td>
+                            <i class="text-primary fa mx-2"
+                                [ngClass]="{'fa-pencil': customer.creator === currentUser.userId}"
+                                [routerLink]="customer._id"></i>
+                            <i class="text-warning fa fa-eye mx-2" [routerLink]="customer._id + '/view'"></i>
+                            <i class="text-danger fa fa-trash mx-2" (click)="openConformationPopup(customer._id)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ng-container *ngIf="view === 'card'">
+                <div class="row">
+                    <div class="col-3 my-2" *ngFor="let customer of res.customers">
+                        <div class="card p-2" style="height: fit-content;" *ngIf="view === 'card'">
+                            <img class="card-img-top"
+                                [src]="customer.photo || ('assets/' + (customer.gender === 'Male' ? 'male' : 'female') + '.png')"
+                                alt="Card image" height="180" width="60">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">{{customer.name}}</h4>
+                                <!-- <div>{{customer.address + (customer.city && (', ' + customer.city)) + (customer.state && (', ' + customer.state)) + (customer.country && (', ' + customer.country))}}</div> -->
+                                <div class="row">
+                                    <div class="col-12 toolbar-item">
+                                        <a class="col-4 text-center text-primary"
+                                            *ngIf="customer.creator === currentUser.userId"
+                                            [routerLink]="customer._id">Edit</a>
+                                        <a class="col-4 text-center text-warning"
+                                            [routerLink]="customer._id + '/view'">View</a>
+                                        <a class="col-4 text-center text-danger"
+                                            (click)="openConformationPopup(customer._id)">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <nav aria-label="pagination" class="col-12">
+            <ul class="pagination justify-content-center">
+                <li *ngFor="let page of totalPagesArr; let i = index;" class="page-item"><a
+                        class="page-link text-primary" routerLink="/customers" [queryParams]="{page: i + 1}">{{i +
+                        1}}</a></li>
+            </ul>
+        </nav>
+
+
+    </div>
+
+    <ng-template #noDataAvailable>
+        <div class="row my-5 text-center">
+            <h5>No customers available!!!</h5>
+        </div>
+    </ng-template>
+    <app-modal #modal (deleteHandler)="onDelete()"></app-modal>
+</ng-container>
